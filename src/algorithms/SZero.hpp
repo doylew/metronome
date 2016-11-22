@@ -1,6 +1,7 @@
 #ifndef METRONOME_SLSSLRTASTAR_HPP
 #define METRONOME_SLSSLRTASTAR_HPP
 #include <fcntl.h>
+#include <algorithm>
 #include <domains/SuccessorBundle.hpp>
 #include <unordered_map>
 #include <vector>
@@ -8,8 +9,8 @@
 #include "MetronomeException.hpp"
 #include "OnlinePlanner.hpp"
 #include "utils/Hasher.hpp"
-#include "utils/StaticVector.hpp"
 #include "utils/PriorityQueue.hpp"
+#include "utils/StaticVector.hpp"
 
 namespace metronome {
 
@@ -37,14 +38,13 @@ public:
             // Goal is already reached
             return std::vector<ActionBundle>();
         }
-
-        // Learning phase
         if (openList.isNotEmpty()) {
             learn(terminationChecker);
         }
-
         const auto bestNode = explore(startState, terminationChecker);
+        // Learning phase
 
+        sweepBackSafety();
         return extractPath(bestNode, nodes[startState]);
     }
 
@@ -104,6 +104,8 @@ private:
         int unexploredParents = 0;
         /** nodes that have preceeded this one*/
         std::vector<Node*> preceeders;
+        /** safe label */
+        bool isSafe = false;
     };
 
     class Edge {
@@ -117,17 +119,30 @@ private:
     };
 
     void sweepBackSafety() {
-        for (auto it = safeNodes.begin(); it != safeNodes.end(); ++it) {
-            Node* currentSafeNode = *it;
+        for (auto currentSafeNode : safeNodes) {
             if (currentSafeNode != nullptr) {
-                while (currentSafeNode->parent != nullptr) {
-                    Node* newFoundSafeNode = currentSafeNode->parent;
-                    safeNodes.push_back(newFoundSafeNode);
-                }
-                for (auto it = currentSafeNode->preceeders.begin(); it != currentSafeNode->preceeders.end(); ++it) {
-                    while ((*it)->parent != nullptr) {
-                        Node* newFoundSafeNode = (*it);
+                Node* newFoundSafeNode = currentSafeNode->parent;
+                while (newFoundSafeNode != nullptr) {
+                    newFoundSafeNode->isSafe = true;
+                    if (newFoundSafeNode->parent != nullptr) {
+                        if (newFoundSafeNode->parent->parent == nullptr)
+                            safeTopLevelActionNodes.push_back(newFoundSafeNode);
+                    } else {
                         safeNodes.push_back(newFoundSafeNode);
+                    }
+                    newFoundSafeNode = newFoundSafeNode->parent;
+                }
+                for (auto copyIt : currentSafeNode->preceeders) {
+                    Node* newFoundPredNode = copyIt->parent;
+                    while (newFoundPredNode != nullptr) {
+                        if (newFoundPredNode->parent != nullptr) {
+                            if (newFoundPredNode->parent->parent == nullptr)
+                                safeTopLevelActionNodes.push_back(newFoundPredNode);
+                        } else {
+                            safeNodes.push_back(newFoundPredNode);
+                        }
+                        newFoundPredNode->isSafe = true;
+                        newFoundPredNode = newFoundPredNode->parent;
                     }
                 }
             } else {
@@ -142,13 +157,15 @@ private:
         // Reorder the open list based on the heuristic values
         openList.reorder(hComparator);
 
-        sweepBackSafety();
-
         while (!terminationChecker.reachedTermination() && openList.isNotEmpty()) {
             auto currentNode = popOpenList();
+            Node currentNodeLocal = *currentNode;
             currentNode->iteration = iterationCounter;
+            currentNodeLocal.iteration = iterationCounter;
 
             Cost currentHeuristicValue = currentNode->h;
+            Cost localCurrentHeruristicValue = currentNodeLocal.h;
+            heuristicValues[currentNodeLocal] = localCurrentHeruristicValue;
 
             // update heuristic actionDuration of each predecessor
             for (auto predecessor : currentNode->predecessors) {
@@ -182,6 +199,9 @@ private:
         clearOpenList();
         openList.reorder(fComparator);
 
+        safeNodes.clear();
+        safeTopLevelActionNodes.clear();
+
         Planner::incrementGeneratedNodeCount();
         Node*& startNode = nodes[startState];
 
@@ -199,7 +219,7 @@ private:
 
         Node* currentNode = startNode;
 
-        checkSafeNode(currentNode);
+        checkSafeNode(currentNode, startNode);
 
         while (!terminationChecker.reachedTermination() && !domain.isGoal(currentNode->state)) {
             //            if (domain.safetyPredicate(currentNode->state)) { // try to find nodes which lead to safety
@@ -216,28 +236,33 @@ private:
             //                }
             //            }
             Node* const currentNode = popOpenList();
+
+            checkSafeNode(currentNode, startNode);
             if (domain.isGoal(currentNode->state)) {
                 return currentNode;
             }
 
             terminationChecker.notifyExpansion();
-            expandNode(currentNode);
+            expandNode(currentNode, startNode);
         }
 
         return openList.top();
     }
 
-    void checkSafeNode(Node* candidateNode) {
-        if (domain.safetyPredicate(candidateNode->state)) { // if the node is safe
-            if (candidateNode->parent->parent == nullptr && false) {
-                //                safeTopLevelActionNodes.push_back(candidateNode);
+    void checkSafeNode(Node* candidateNode, Node* startNode) {
+        if (domain.safetyPredicate(candidateNode->state) &&
+                !(candidateNode->state == startNode->state)) { // if the node is safe
+            candidateNode->isSafe = true;
+            if ((candidateNode->parent != nullptr && candidateNode->parent->parent == nullptr) ||
+                    candidateNode->parent == startNode) {
+                safeTopLevelActionNodes.insert(safeTopLevelActionNodes.begin(), candidateNode);
             } else {
-                safeNodes.push_back(candidateNode); // put it with the other safe nodes
+                safeNodes.insert(safeNodes.begin(), candidateNode); // put it with the other safe nodes
             }
         }
     }
 
-    void expandNode(Node* sourceNode) {
+    void expandNode(Node* sourceNode, Node* startNode) {
         Planner::incrementExpandedNodeCount();
 
         for (auto successor : domain.successors(sourceNode->state)) {
@@ -247,20 +272,6 @@ private:
 
             if (successorNode == nullptr) {
                 successorNode = createNode(sourceNode, successor);
-                if (successorNode->parent->parent == nullptr) {
-                    // its the root node [start node] mark top level actions
-                    //                    successorNode->topLevelAction = successorNode->action;
-                    //                    safeTopLevelActionNodes.push_back(successorNode);
-                }
-                checkSafeNode(successorNode);
-                if (successorNode->parent != nullptr) { // as long as the parent isn't null
-                    if (successorNode->parent->parent == nullptr) { // if we're marking TLAs
-                        successorNode->topLevelAction = successorNode->action; // give them their action
-                    } else { // otherwise we're marking non TLAs
-                        successorNode->topLevelAction =
-                                successorNode->parent->topLevelAction; // set the node's TLA to its parent's
-                    }
-                }
             }
 
             // If the node is outdated it should be updated.
@@ -271,7 +282,16 @@ private:
                 successorNode->open = false; // It is not on the open list yet, but it will be
                 // parent, action, and actionCost is outdated too, but not relevant.
             }
-
+            checkSafeNode(successorNode, startNode);
+            if (successorNode->parent != nullptr) { // as long as the parent isn't null
+                if (successorNode->parent->parent == nullptr ||
+                        successorNode->parent == startNode) { // if we're marking TLAs
+                    successorNode->topLevelAction = successorNode->action; // give them their action
+                } else { // otherwise we're marking non TLAs
+                    successorNode->topLevelAction =
+                            successorNode->parent->topLevelAction; // set the node's TLA to its parent's
+                }
+            }
             // Add the current state as the predecessor of the child state
             successorNode->predecessors.emplace_back(sourceNode, successor.action, successor.actionCost);
 
@@ -328,9 +348,12 @@ private:
         openList.push(node);
     }
 
-    std::vector<ActionBundle> extractPath(const Node* targetNode, const Node* sourceNode) const {
+    std::vector<ActionBundle> extractPath(const Node* targetNode, const Node* sourceNode) {
+        if (domain.isGoal(targetNode->state) && targetNode->parent->parent == nullptr) {
+            return std::vector<ActionBundle>{ActionBundle{targetNode->action, targetNode->g - targetNode->parent->g}};
+        }
         if (targetNode == sourceNode) {
-//            LOG(INFO) << "We didn't move:" << sourceNode->toString() << std::endl;
+            //            LOG(INFO) << "We didn't move:" << sourceNode->toString() << std::endl;
             return std::vector<ActionBundle>();
         }
 
@@ -338,21 +361,41 @@ private:
         auto currentNode = targetNode;
 
         // commit to one action
-//        LOG(INFO) << currentNode->toString() << std::endl;
+        //        LOG(INFO) << currentNode->toString() << std::endl;
         if (currentNode->parent->parent == nullptr) {
-//            LOG(INFO) << "root" << std::endl;
+            //            LOG(INFO) << "root" << std::endl;
         }
-//        LOG(INFO) << currentNode->topLevelAction << std::endl;
+        //        LOG(INFO) << currentNode->topLevelAction << std::endl;
         while (currentNode->parent->parent != nullptr) {
             //         The g difference of the child and the parent gives the action cost from the parent
             //  keep going back until we're one away from the root AKA at a TLA
-//            actionBundles.emplace_back(currentNode->action, currentNode->g - currentNode->parent->g);
+            //            actionBundles.emplace_back(currentNode->action, currentNode->g - currentNode->parent->g);
             currentNode = currentNode->parent;
         }
 
         if (safeTopLevelActionNodes[0] == nullptr) {
             actionBundles.emplace_back(currentNode->action, currentNode->g - currentNode->parent->g);
         } else {
+            auto topOfOpen = popOpenList();
+            std::vector<Node*> replaceOntoOpen{};
+            bool contain = false;
+            while (!contain) {
+                for (Node* safeNode : safeNodes) {
+                    if (safeNode->state == topOfOpen->state) {
+                        contain = true;
+                        if (contain) {
+                            break;
+                        }
+                    }
+                }
+                replaceOntoOpen.insert(replaceOntoOpen.begin(), topOfOpen);
+                topOfOpen = popOpenList();
+            }
+            replaceOntoOpen.insert(replaceOntoOpen.begin(), topOfOpen);
+            actionBundles.emplace_back(topOfOpen->topLevelAction, topOfOpen->g - topOfOpen->parent->g);
+            for (auto i = 0; i < replaceOntoOpen.size(); ++i) {
+                addToOpenList(*replaceOntoOpen[i]);
+            }
         }
         std::reverse(actionBundles.begin(), actionBundles.end());
 
@@ -388,6 +431,7 @@ private:
     std::unique_ptr<StaticVector<Node, Memory::NODE_LIMIT>> nodePool{
             std::make_unique<StaticVector<Node, Memory::NODE_LIMIT>>()};
     unsigned int iterationCounter{0};
+    std::unordered_map<Node, int, typename metronome::Hasher<Node>> heuristicValues{};
 };
 }
 

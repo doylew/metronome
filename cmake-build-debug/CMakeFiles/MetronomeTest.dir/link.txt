@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++14 -g  -static-libgcc -static-libstdc++ CMakeFiles/MetronomeTest.dir/test/test.cpp.o  -o MetronomeTest -rdynamic -lboost_thread -lboost_system -lcairo -lSM -lICE -lX11 -lXext 

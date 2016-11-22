@@ -1,0 +1,62 @@
+/home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/aifs2/doylew/Public/metronome
+-- The C compiler identification is GNU 5.4.0
+-- The CXX compiler identification is GNU 5.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning at /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:743 (message):
+  Imported targets not available for Boost version 106200
+Call Stack (most recent call first):
+  /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:842 (_Boost_COMPONENT_DEPENDENCIES)
+  /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:1395 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:63 (find_package)
+
+
+CMake Warning at /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:743 (message):
+  Imported targets not available for Boost version 106200
+Call Stack (most recent call first):
+  /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:842 (_Boost_COMPONENT_DEPENDENCIES)
+  /home/aifs2/doylew/Applications/clion-2016.1.2/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:1395 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:63 (find_package)
+
+
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Boost version: 1.62.0
+-- Found the following Boost libraries:
+--   thread
+--   system
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1") 
+-- Checking for one of the modules 'cairo'
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Looking for IceConnectionNumber in ICE
+-- Looking for IceConnectionNumber in ICE - found
+-- Found X11: /usr/lib/x86_64-linux-gnu/libX11.so
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/aifs2/doylew/Public/metronome/cmake-build-debug

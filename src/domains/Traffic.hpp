@@ -309,7 +309,7 @@ public:
             State newState = State(state.getX(), state.getY() - 1, obstacleMap);
             if (isLegalLocation(newState)) {
 
-//                visualize(std::cout, state, action);
+//                visualize(std::cout, newState, action);
                 return boost::make_optional(newState);
             }
         } else if (action.toChar() == 'E') {
@@ -317,15 +317,16 @@ public:
             if (isLegalLocation(newState)) {
 
 
-//                visualize(std::cout, state, action);
+//                visualize(std::cout, newState, action);
                 return boost::make_optional(newState);
             }
         } else if (action.toChar() == 'S') {
             State newState = State(state.getX(), state.getY() + 1, obstacleMap);
+//            visualize(std::cout, newState, action);
             if (isLegalLocation(newState)) {
 
 
-//                visualize(std::cout, state, action);
+//                visualize(std::cout, newState, action);
                 return boost::make_optional(newState);
             }
         } else if (action.toChar() == 'W') {
@@ -333,19 +334,22 @@ public:
             if (isLegalLocation(newState)) {
 
 
-//                visualize(std::cout, state, action);
+//                visualize(std::cout, newState, action);
                 return boost::make_optional(newState);
             }
         } else if (action.toChar() == '0' /*&& bunkers[state.getX()][state.getY()]*/) {
             State newState = State(state.getX(), state.getY(), obstacleMap);
             if (isLegalLocation(newState)) {
 
+//                visualize(std::cout, newState, action);
 
-//                visualize(std::cout, state, action);
                 return boost::make_optional(newState);
             }
         }
 
+//        std::cout << "FAIL" << std::endl;
+//        visualize(std::cout, state, action);
+//        std::cout << "END_FAIL" << std::endl;
         return boost::none;
     }
 

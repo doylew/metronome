@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Metronome"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\modules\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MetronomeTest">
+				<Option output="/home/aifs2/doylew/Public/metronome/cmake-build-debug/MetronomeTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGRAPHICS"/>
+					<Add directory="/usr/lib"/>
+					<Add directory="/usr/include/cairo"/>
+					<Add directory="/usr/include/glib-2.0"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
+					<Add directory="/usr/include/pixman-1"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/libpng12"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/dependencies"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 MetronomeTest"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MetronomeTest/fast">
+				<Option output="/home/aifs2/doylew/Public/metronome/cmake-build-debug/MetronomeTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGRAPHICS"/>
+					<Add directory="/usr/lib"/>
+					<Add directory="/usr/include/cairo"/>
+					<Add directory="/usr/include/glib-2.0"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
+					<Add directory="/usr/include/pixman-1"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/libpng12"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/dependencies"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 MetronomeTest/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Metronome">
+				<Option output="/home/aifs2/doylew/Public/metronome/cmake-build-debug/Metronome" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGRAPHICS"/>
+					<Add directory="/usr/lib"/>
+					<Add directory="/usr/include/cairo"/>
+					<Add directory="/usr/include/glib-2.0"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
+					<Add directory="/usr/include/pixman-1"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/libpng12"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/dependencies"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 Metronome"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Metronome/fast">
+				<Option output="/home/aifs2/doylew/Public/metronome/cmake-build-debug/Metronome" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/aifs2/doylew/Public/metronome/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGRAPHICS"/>
+					<Add directory="/usr/lib"/>
+					<Add directory="/usr/include/cairo"/>
+					<Add directory="/usr/include/glib-2.0"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
+					<Add directory="/usr/include/pixman-1"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/libpng12"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/dependencies"/>
+					<Add directory="/home/aifs2/doylew/Public/metronome/src"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 Metronome/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/aifs2/doylew/Public/metronome/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/MemoryConfiguration.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/MetronomeException.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/AStar.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/FHat.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/FRts.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/LssLrtaStar.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/MoRts.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/OfflinePlanner.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/OnlinePlanner.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/Planner.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/SZero.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/Domain.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/GridWorld.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/SlidingTilePuzzle.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/SuccessorBundle.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/TestDomain.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/Traffic.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/Configuration.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/ConfigurationExecutor.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/OfflinePlanManager.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/PlanManager.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/RealTimePlanManager.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/Result.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/termination/ExpansionTerminationChecker.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/experiment/termination/TimeTerminationChecker.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/main.cpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/File.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/Hasher.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/Location2D.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/PriorityQueue.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/StaticVector.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/Statistic.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/TimeMeasurement.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/utils/Visualizer.hpp">
+			<Option target="Metronome"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/algorithms/AStarTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/algorithms/LssLrtaStarTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/domains/GridWorldTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/domains/TrafficTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/experiment/TimeTerminationCheckerTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/test.cpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/test/utils/PriorityQueueTest.hpp">
+			<Option target="MetronomeTest"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/aifs2/doylew/Public/metronome/modules/FindCairo.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

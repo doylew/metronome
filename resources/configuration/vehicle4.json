@@ -1,9 +1,10 @@
 {
   "timeLimit": 150000000000,
-  "domainPath": "/input/vehicle/vehicle10.v",
+  "domainPath": "/input/vehicle/small.v",
   "domainInstanceName": "Manual test instance",
   "actionDuration": 6000000,
   "domainName": "TRAFFIC",
   "terminationType": "EXPANSION",
-  "algorithmName": "S_ZERO"
+  "algorithmName": "S_ZERO",
+  "lookaheadType": "STATIC"
 }

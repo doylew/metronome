@@ -23,14 +23,19 @@ public:
         return t;
     }
 
+    void clear() {
+        for (std::size_t pos = 0; pos < size; ++pos) {
+            reinterpret_cast<const T*>(data + pos)->~T();
+        }
+
+        size = 0;
+    }
     // Access an object in aligned storage
     const T& operator[](std::size_t pos) const { return *reinterpret_cast<const T*>(data + pos); }
 
     // Delete objects from aligned storage
     ~StaticVector() {
-        for (std::size_t pos = 0; pos < size; ++pos) {
-            reinterpret_cast<const T*>(data + pos)->~T();
-        }
+        clear();
     }
 };
 }

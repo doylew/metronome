@@ -23,6 +23,7 @@ set(SOURCE_FILES
         src/algorithms/OfflinePlanner.hpp
         src/algorithms/OnlinePlanner.hpp
         src/algorithms/Planner.hpp
+        src/algorithms/SZero.hpp
         src/domains/GridWorld.hpp
         src/domains/Domain.hpp
         src/domains/SlidingTilePuzzle.hpp
