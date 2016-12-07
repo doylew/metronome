@@ -41,6 +41,7 @@ CMakeFiles/Metronome.dir/src/main.cpp.o
  ../src/algorithms/OnlinePlanner.hpp
  ../src/algorithms/Planner.hpp
  ../src/algorithms/SZero.hpp
+ ../src/algorithms/SZeroFive.hpp
  ../src/domains/GridWorld.hpp
  ../src/domains/SlidingTilePuzzle.hpp
  ../src/domains/SuccessorBundle.hpp

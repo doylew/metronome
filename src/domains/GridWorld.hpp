@@ -222,6 +222,8 @@ public:
 
     bool safetyPredicate(const State& state) const { return true; }
 
+
+
     std::vector<SuccessorBundle<GridWorld>> successors(const State& state) const {
         std::vector<SuccessorBundle<GridWorld>> successors;
 
@@ -231,6 +233,10 @@ public:
         addValidSuccessor(successors, state, 1, 0, Action::getActions()[3]);
 
         return successors;
+    }
+
+    void visualize(std::ostream& display, const State& state, const Action& action) const {
+        display << "GRIDWORLD VISUALIZE NOT IMPLEMENTED" << std::endl;
     }
 
     void visualize(std::ostream& display) const {

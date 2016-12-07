@@ -279,7 +279,7 @@ public:
 
         for (auto i = 0; i < height; ++i) {
             for (auto j = 0; j < width; ++j) {
-                if (state.getX() == j && state.getY() == i) {
+                if ((state.getX()) == j && (state.getY()) == i) {
                     display << '@';
                 } else if (goalLocation.getX() == j && goalLocation.getY() == i) {
                     display << '*';
@@ -400,7 +400,8 @@ public:
     const State& getGoalState() const { return goalLocation; }
 
     bool safetyPredicate(const State& state) const {
-        if (bunkers[state.getX()][state.getY()]) {
+        return true;
+        if (bunkers[state.getX()][state.getY()] || (state.getX() == goalLocation.getX() && state.getY() == goalLocation.getY())) {
             return true;
         }
         return false;

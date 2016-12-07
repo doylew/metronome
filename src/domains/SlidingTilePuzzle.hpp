@@ -171,6 +171,10 @@ public:
 
     bool isGoal(const State& state) const { return distance(state) == 0; }
 
+    void visualize(std::ostream& display, const State& state, const Action& action) const {
+        display << "SLIDING TILE PUZZLE VISUALIZE NOT IMPLEMENTED" << std::endl;
+    }
+
     Cost distance(const State& state) const {
         int manhattanSum{0};
 

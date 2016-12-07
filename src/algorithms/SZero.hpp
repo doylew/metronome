@@ -1,5 +1,5 @@
-#ifndef METRONOME_SLSSLRTASTAR_HPP
-#define METRONOME_SLSSLRTASTAR_HPP
+#ifndef METRONOME_SZERO_HPP
+#define METRONOME_SZERO_HPP
 #include <fcntl.h>
 #include <algorithm>
 #include <domains/SuccessorBundle.hpp>
@@ -118,38 +118,56 @@ private:
         const Cost actionCost;
     };
 
+    /** sweep back through the parent pointers */
     void sweepBackSafety() {
         for (auto currentSafeNode : safeNodes) {
             if (currentSafeNode != nullptr) {
                 Node* newFoundSafeNode = currentSafeNode->parent;
+                newFoundSafeNode->isSafe = true;
                 while (newFoundSafeNode != nullptr) {
-                    newFoundSafeNode->isSafe = true;
-                    if (newFoundSafeNode->parent != nullptr) {
-                        if (newFoundSafeNode->parent->parent == nullptr)
-                            safeTopLevelActionNodes.push_back(newFoundSafeNode);
-                    } else {
-                        safeNodes.push_back(newFoundSafeNode);
+                    if (newFoundSafeNode->parent != nullptr && newFoundSafeNode->parent->parent == nullptr) {
+                        safeTopLevelActions.push_back(newFoundSafeNode); // safe TLA
+                    } else if (newFoundSafeNode->parent != nullptr) {
+                        safeNodes.push_back(newFoundSafeNode); // safe node
                     }
                     newFoundSafeNode = newFoundSafeNode->parent;
                 }
-                for (auto copyIt : currentSafeNode->preceeders) {
-                    Node* newFoundPredNode = copyIt->parent;
-                    while (newFoundPredNode != nullptr) {
-                        if (newFoundPredNode->parent != nullptr) {
-                            if (newFoundPredNode->parent->parent == nullptr)
-                                safeTopLevelActionNodes.push_back(newFoundPredNode);
-                        } else {
-                            safeNodes.push_back(newFoundPredNode);
-                        }
-                        newFoundPredNode->isSafe = true;
-                        newFoundPredNode = newFoundPredNode->parent;
-                    }
-                }
-            } else {
-                break;
             }
         }
     }
+
+    //    void sweepBackSafetyOld() {
+    //        for (auto currentSafeNode : safeNodes) {
+    //            if (currentSafeNode != nullptr) {
+    //                Node* newFoundSafeNode = currentSafeNode->parent;
+    //                while (newFoundSafeNode != nullptr) {
+    //                    newFoundSafeNode->isSafe = true;
+    //                    if (newFoundSafeNode->parent != nullptr) {
+    //                        if (newFoundSafeNode->parent->parent == nullptr)
+    //                            safeTopLevelActionNodes.push_back(newFoundSafeNode);
+    //                    } else {
+    //                        safeNodes.push_back(newFoundSafeNode);
+    //                    }
+    //                    newFoundSafeNode = newFoundSafeNode->parent;
+    //                }
+    //                for (auto copyIt : currentSafeNode->preceeders) {
+    //                    Node* newFoundPredNode = copyIt->parent;
+    //                    while (newFoundPredNode != nullptr) {
+    //                        if (newFoundPredNode->parent != nullptr) {
+    //                            if (newFoundPredNode->parent->parent == nullptr)
+    //                                safeTopLevelActionNodes.push_back(newFoundPredNode);
+    //                        } else {
+    //                            safeNodes.push_back(newFoundPredNode);
+    //                        }
+    //                        newFoundPredNode->isSafe = true;
+    //                        newFoundPredNode = newFoundPredNode->parent;
+    //                    }
+    //                }
+    //            } else {
+    //                break;
+    //            }
+    //        }
+    //    }
 
     void learn(const TerminationChecker& terminationChecker) {
         ++iterationCounter;
@@ -200,7 +218,7 @@ private:
         openList.reorder(fComparator);
 
         safeNodes.clear();
-        safeTopLevelActionNodes.clear();
+        safeTopLevelActions.clear();
 
         Planner::incrementGeneratedNodeCount();
         Node*& startNode = nodes[startState];
@@ -219,8 +237,6 @@ private:
 
         Node* currentNode = startNode;
 
-        checkSafeNode(currentNode, startNode);
-
         while (!terminationChecker.reachedTermination() && !domain.isGoal(currentNode->state)) {
             //            if (domain.safetyPredicate(currentNode->state)) { // try to find nodes which lead to safety
             //                currentNode = popOpenList();
@@ -237,7 +253,6 @@ private:
             //            }
             Node* const currentNode = popOpenList();
 
-            checkSafeNode(currentNode, startNode);
             if (domain.isGoal(currentNode->state)) {
                 return currentNode;
             }
@@ -255,9 +270,9 @@ private:
             candidateNode->isSafe = true;
             if ((candidateNode->parent != nullptr && candidateNode->parent->parent == nullptr) ||
                     candidateNode->parent == startNode) {
-                safeTopLevelActionNodes.insert(safeTopLevelActionNodes.begin(), candidateNode);
+                safeTopLevelActions.push_back(candidateNode);
             } else {
-                safeNodes.insert(safeNodes.begin(), candidateNode); // put it with the other safe nodes
+                safeNodes.push_back(candidateNode); // put it with the other safe nodes
             }
         }
     }
@@ -373,33 +388,46 @@ private:
             currentNode = currentNode->parent;
         }
 
-        if (safeTopLevelActionNodes[0] == nullptr) {
+        if (safeTopLevelActions[0] == nullptr) {
+//            LOG(INFO) << "LSS_LRTA* behavior" << std::endl;
             actionBundles.emplace_back(currentNode->action, currentNode->g - currentNode->parent->g);
         } else {
-            auto topOfOpen = popOpenList();
-            std::vector<Node*> replaceOntoOpen{};
-            bool contain = false;
-            while (!contain) {
-                for (Node* safeNode : safeNodes) {
-                    if (safeNode->state == topOfOpen->state) {
-                        contain = true;
-                        if (contain) {
-                            break;
-                        }
-                    }
-                }
-                replaceOntoOpen.insert(replaceOntoOpen.begin(), topOfOpen);
-                topOfOpen = popOpenList();
-            }
-            replaceOntoOpen.insert(replaceOntoOpen.begin(), topOfOpen);
-            actionBundles.emplace_back(topOfOpen->topLevelAction, topOfOpen->g - topOfOpen->parent->g);
-            for (auto i = 0; i < replaceOntoOpen.size(); ++i) {
-                addToOpenList(*replaceOntoOpen[i]);
+            // do pick a safe top level action
+            const Node* safestTLA = findSafestTLA(currentNode->parent);
+            if(safestTLA != nullptr) {
+                actionBundles.emplace_back(safestTLA->action, safestTLA->g - safestTLA->parent->g);
+            } else {
+                actionBundles.emplace_back(currentNode->action, currentNode->g - currentNode->parent->g);
             }
         }
         std::reverse(actionBundles.begin(), actionBundles.end());
 
         return actionBundles;
+    }
+
+    Node* findSafestTLA(Node* currentNode) {
+        Node* safestTLA = nullptr;
+        long int lowestF = std::numeric_limits<long>::max();
+        std::vector<Node*> placeOnToOpen;
+        int count = 0;
+        while (openList.isNotEmpty()) {
+            Node* topOfOpen = openList.pop();
+            placeOnToOpen.push_back(topOfOpen);
+            if (topOfOpen->f() < lowestF && topOfOpen->isSafe && currentNode == topOfOpen->parent) {
+                safestTLA = topOfOpen;
+                ++count;
+                lowestF = topOfOpen->f();
+            }
+        }
+        std::cout << count << std::endl;
+        int index = 0;
+        while (index < placeOnToOpen.size()) {
+            Node* backOnOpen = placeOnToOpen[index];
+            openList.push(*backOnOpen);
+            ++index;
+        }
+        openList.reorder(fComparator);
+        return safestTLA;
     }
 
     static int fComparator(const Node& lhs, const Node& rhs) {
@@ -426,7 +454,7 @@ private:
     const Domain& domain;
     PriorityQueue<Node> openList{Memory::OPEN_LIST_SIZE, fComparator};
     std::unordered_map<State, Node*, typename metronome::Hasher<State>> nodes{};
-    std::vector<Node*> safeTopLevelActionNodes{Memory::NODE_LIMIT};
+    std::vector<Node*> safeTopLevelActions{Memory::NODE_LIMIT};
 
     std::unique_ptr<StaticVector<Node, Memory::NODE_LIMIT>> nodePool{
             std::make_unique<StaticVector<Node, Memory::NODE_LIMIT>>()};

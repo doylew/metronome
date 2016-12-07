@@ -200,7 +200,7 @@
 		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/Planner.hpp">
 			<Option target="Metronome"/>
 		</Unit>
-		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/SZero.hpp">
+		<Unit filename="/home/aifs2/doylew/Public/metronome/src/algorithms/SZeroFive.hpp">
 			<Option target="Metronome"/>
 		</Unit>
 		<Unit filename="/home/aifs2/doylew/Public/metronome/src/domains/Domain.hpp">

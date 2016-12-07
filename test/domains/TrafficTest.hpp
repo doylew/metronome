@@ -79,7 +79,7 @@ TEST_CASE("Traffic basic creation test", "[Traffic]") {
     metronome::ExpansionTerminationChecker check;
     metronome::TimeTerminationChecker checker;
 
-    metronome::SZero<metronome::Traffic, metronome::ExpansionTerminationChecker> SZero(testGrid, config);
+    metronome::SZeroFive<metronome::Traffic, metronome::ExpansionTerminationChecker> SZero(testGrid, config);
 
     metronome::LssLrtaStar<metronome::GridWorld, metronome::TimeTerminationChecker> LssLrtaStar(testGrid2, config);
 
@@ -97,7 +97,7 @@ TEST_CASE("Traffic basic creation test", "[Traffic]") {
     std::vector<metronome::OnlinePlanner<metronome::GridWorld, metronome::TimeTerminationChecker>::ActionBundle> rett =
             LssLrtaStar.selectActions(testGrid2.getStartState(), checker);
 
-//    LOG(INFO) << "S: " << ret.size() << " SZero Solution: " << std::endl;
+//    LOG(INFO) << "S: " << ret.size() << " SZeroFive Solution: " << std::endl;
 //    for (auto i : ret) {
 //        LOG(INFO) << i.action.toString() << std::endl;
 //    }

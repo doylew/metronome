@@ -57,21 +57,16 @@ public:
                     boost::optional<typename Domain::State> nextState =
                             domain.transition(currentState, actionBundle.action);
 
-                    LOG(INFO) << "try: " << actionBundle.action << std::endl;
+
+
                     if (!nextState.is_initialized()) {
-                        for (auto action : actions) {
-                            LOG(INFO) << "!" << action.toString() << std::endl;
-                        }
                         throw MetronomeException("Invalid action. Partial plan is corrupt.");
                     }
+
+                    domain.visualize(std::cout, nextState.get(), actionBundle.action);
                     currentState = nextState.get();
                     //                    LOG(INFO) << actionBundle.action << std::endl;
                     actions.emplace_back(actionBundle.action);
-                    LOG(INFO) << "start partial path" << std::endl;
-                    for (auto action : actions) {
-                        LOG(INFO) << action.toString() << std::endl;
-                    }
-                    LOG(INFO) << "end partial path" << std::endl;
 
                     timeBound += actionBundle.actionDuration;
                 }
@@ -98,6 +93,7 @@ public:
         std::vector<std::string> actionStrings;
 
         for (auto& action : actions) {
+            LOG(INFO) << action << std::endl;
             actionStrings.push_back(action.toString());
         }
 
